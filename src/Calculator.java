@@ -1,74 +1,83 @@
-import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Calculator {
-    public static void main(String[] args) throws IOException, NumberFormatException, IllegalArgumentException {
+    public static void main(String[] args) throws IllegalArgumentException {
         Scanner scanner = new Scanner(System.in);
         String example = scanner.nextLine();
 
         boolean b1 = testArab(example);
         boolean b2 = testRome(example);
-        if (b1 == true) {
+        if (b1) {
             calculationArab(example);
-        }
-        else if (b2 == true) {
+        } else if (b2) {
             calculationRome(example);
         }
-
+        else
+            System.out.println("error");
 
 
     }
+
     public static boolean testArab(String s) {
-        Pattern p = Pattern.compile("[0-9]{1,2}\\s[-\\+\\*\\/]\\s[0-9]{1,2}");
+        Pattern p = Pattern.compile("[0-9]{1,2}\\s[-+*/]\\s[0-9]{1,2}");
         Matcher m = p.matcher(s);
         return m.matches();
     }
+
     public static boolean testRome(String s) {
-        Pattern p = Pattern.compile("[IXV]{1,4}\\s[-\\+\\*\\/]\\s[IVX]{1,4}");
+        Pattern p = Pattern.compile("[IXV]{1,4}\\s[-+*/]\\s[IVX]{1,4}");
         Matcher m = p.matcher(s);
         return m.matches();
     }
 
     public static void calculationArab(String s) {
 
-        String[] arr1 = s.split(" ");
-        int arr11 = Integer.parseInt(arr1[0]);
-        int arr12 = Integer.parseInt(arr1[2]);
+        String[] arr = s.split(" ");
+        int a = Integer.parseInt(arr[0]);
+        int b = Integer.parseInt(arr[2]);
 
-        if ((arr11 >10||arr11< 1)||(arr12 >10||arr12< 1))  {  System.out.println("error");   }
-        else if(s.contains("+")) { System.out.println(arr11 + arr12); }
-        else if(s.contains("-")) { System.out.println(arr11 - arr12); }
-        else if(s.contains("*")) { System.out.println(arr11 * arr12); }
-        else if(s.contains("/")) { System.out.println(arr11 / arr12); }
+        if ((a > 10 || a < 1) || (b > 10 || b < 1)) {
+            System.out.println("error");
+        } else if (s.contains("+")) {
+            System.out.println(a + b);
+        } else if (s.contains("-")) {
+            System.out.println(a - b);
+        } else if (s.contains("*")) {
+            System.out.println(a * b);
+        } else if (s.contains("/")) {
+            System.out.println(a / b);
+        }
     }
 
-    public static void calculationRome (String s) {
-        String [] arr2 = s.split(" ");  //преобразуем строку в массив
+    public static void calculationRome(String s) {
+        String[] arr2 = s.split(" ");  //преобразуем строку в массив
         String arr11 = arr2[0];  // объявляем и инициализируем стринговые переемнные, данные получаем из элементов массива
         String arr12 = arr2[2];
         int a = Rome.valueOf(arr11).toArab(); //объявляем и инициализируме числовые значения этих переменных, полученные из словаря Enum
         int b = Rome.valueOf(arr12).toArab();
-        if(s.contains("+")) {  System.out.println(a + b);  }  //выполняем арифметические действия с числами
-        else if(s.contains("-")) { System.out.println(a - b); }
-        else if(s.contains("*")) { System.out.println(a * b); }
-        else if(s.contains("/")) { System.out.println(a / b); }
+        int c = 0;
+        if (s.contains("+")) { c = a + b; }  //выполняем арифметические действия с числами
+        else if (s.contains("-")) {  c = a - b; }
+        else if (s.contains("*")) {  c = a / b; }
+        if (c <= 1) {
+            System.out.println("error");
+        }
 
-    }
-
-    // метод скопирован отсюда https://coding.tools/ru/numbers-to-roman-numerals
-    public static String convertArabToRome(int number) {
+        // перевод результата расчета в римские числа
+        // отсюда https://coding.tools/ru/numbers-to-roman-numerals
         int[] roman_value_list = new int[]{100, 90, 50, 40, 10, 9, 5, 4, 1};
         String[] roman_char_list = new String[]{"C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < roman_value_list.length; i += 1) {
-            while (number >= roman_value_list[i]){
-                number -= roman_value_list[i];
+            while (c >= roman_value_list[i]) {
+                c -= roman_value_list[i];
                 res.append(roman_char_list[i]);
             }
         }
-        return res.toString();
+        System.out.println(res);
+
     }
 }
-
