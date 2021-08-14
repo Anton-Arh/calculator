@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 public class Calculator {
     public static void main(String[] args) throws IllegalArgumentException {
+        System.out.println("Введите пример для решения");
         Scanner scanner = new Scanner(System.in);
         String example = scanner.nextLine();
 
@@ -15,8 +16,7 @@ public class Calculator {
             calculationRome(example);
         }
         else
-            System.out.println("error");
-
+            System.out.println("Введите корректные значения аргументов");
 
     }
 
@@ -39,7 +39,7 @@ public class Calculator {
         int b = Integer.parseInt(arr[2]);
 
         if ((a > 10 || a < 1) || (b > 10 || b < 1)) {
-            System.out.println("error");
+            System.out.println("Введите корректные значения аргументов");
         } else if (s.contains("+")) {
             System.out.println(a + b);
         } else if (s.contains("-")) {
@@ -52,17 +52,18 @@ public class Calculator {
     }
 
     public static void calculationRome(String s) {
-        String[] arr2 = s.split(" ");  //преобразуем строку в массив
-        String arr11 = arr2[0];  // объявляем и инициализируем стринговые переемнные, данные получаем из элементов массива
-        String arr12 = arr2[2];
-        int a = Rome.valueOf(arr11).toArab(); //объявляем и инициализируме числовые значения этих переменных, полученные из словаря Enum
-        int b = Rome.valueOf(arr12).toArab();
+        String[] arr = s.split(" "); //преобразуем строку в массив
+        String s1 = arr[0]; // объявляем и инициализируем стринговые переменные, данные получаем из элементов массива
+        String s2 = arr[2];
+        int a = Rome.valueOf(s1).toArab(); //объявляем и инициализируме числовые значения этих переменных, полученные из словаря Enum
+        int b = Rome.valueOf(s2).toArab();
         int c = 0;
-        if (s.contains("+")) { c = a + b; }  //выполняем арифметические действия с числами
-        else if (s.contains("-")) {  c = a - b; }
-        else if (s.contains("*")) {  c = a / b; }
-        if (c <= 1) {
-            System.out.println("error");
+        if (s.contains("+")) { c = a + b; } //выполняем арифметические действия с числами
+        else if (s.contains("-")) { c = a - b; }
+        else if (s.contains("*")) { c = a * b; }
+        else if (s.contains("/")) { c = a / b; }
+        if (c <= 0) {
+            System.out.println("Результат меньше или равен нулю, введите корректные значения аргументов");
         }
 
         // перевод результата расчета в римские числа
